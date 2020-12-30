@@ -25,7 +25,19 @@ class BodyHome extends StatelessWidget {
               color: kPrimaryColor,
               thickness: 2.0,
             ),
-            _productList(),
+            _buildProductList(),
+            Divider(
+              color: kPrimaryColor,
+              thickness: 2.0,
+            ),
+            Text(
+              'Clothing',
+              style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+            ),
+            Divider(
+              color: kPrimaryColor,
+              thickness: 2.0,
+            ),
           ],
         ),
       ),
@@ -33,81 +45,105 @@ class BodyHome extends StatelessWidget {
   }
 }
 
-Widget _productList() {
+Widget _buildProductList() {
   return Query(
     options: QueryOptions(
       documentNode: gql(getProducts),
       pollInterval: 1,
     ),
     builder: (QueryResult result, {VoidCallback refetch, FetchMore fetchMore}) {
-      return Padding(
+      return Container(
         padding: EdgeInsets.symmetric(horizontal: kDefaultPadding),
-        child: Container(
-          margin: EdgeInsets.symmetric(vertical: 10.0),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.all(Radius.circular(2)),
-            boxShadow: <BoxShadow>[
-              BoxShadow(
-                color: kPrimaryLightColor,
-                blurRadius: 10,
-                spreadRadius: 5,
-              ),
-            ],
-          ),
-          child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-            child: Column(
-              children: [
-                IconButton(
-                  icon: Icon(
-                    Icons.favorite_border_outlined,
-                    color: kPrimaryColor,
-                  ),
-                  onPressed: () {},
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Image.network(
-                      'https://s.alicdn.com/@sc01/kf/Hd9e96ec5beda48488fb057bcddfeca19G.jpg_250x250xzq80.jpg',
-                      height: 150,
-                    ),
-                    SizedBox(height: 10.0),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          'Rs.2350',
-                          style: TextStyle(
-                            fontWeight: FontWeight.bold,
-                            color: kPrimaryColor,
-                            fontSize: 18,
+        height: 300,
+        child: result.hasException
+            ? Text(result.exception.toString())
+            : result.loading
+                ? LinearProgressIndicator(backgroundColor: kPrimaryColor)
+                : Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: result.data['getProducts'].length,
+                      itemBuilder: (context, index) {
+                        final product = result.data['getProducts'][index];
+                        final productPricing = product['quantiyPrice'];
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Container(
+                            alignment: Alignment.center,
+                            margin: EdgeInsets.symmetric(vertical: 10.0),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(2)),
+                              border: Border.all(color: kPrimaryColor),
+                            ),
+                            child: Column(
+                              children: [
+                                IconButton(
+                                  icon: Icon(
+                                    Icons.favorite_border_outlined,
+                                    color: kPrimaryColor,
+                                  ),
+                                  onPressed: () {},
+                                ),
+                                Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Container(
+                                    width: 150,
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceEvenly,
+                                      children: [
+                                        Image.network(
+                                          '${product['image'][0]}',
+                                          height: 100,
+                                        ),
+                                        SizedBox(height: 10.0),
+                                        Row(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            Text(
+                                              'Rs.${productPricing[0]['price']}',
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                color: kPrimaryColor,
+                                                fontSize: 18,
+                                              ),
+                                            ),
+                                            SizedBox(width: 10),
+                                            Text(
+                                                '${productPricing[0]['from']}'),
+                                            Text('-'),
+                                            Text('${productPricing[0]['to']}'),
+                                          ],
+                                        ),
+                                        SizedBox(height: 10.0),
+                                        Text(
+                                          '${product['name']}',
+                                          overflow: TextOverflow.ellipsis,
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18,
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                        ),
-                        SizedBox(width: 10),
-                        Text('1'),
-                        Text('-'),
-                        Text('100'),
-                      ],
+                        );
+                      },
                     ),
-                    SizedBox(height: 10.0),
-                    Text(
-                      'Wireless Mouse',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ),
+                  ),
       );
     },
   );
