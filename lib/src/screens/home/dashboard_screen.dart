@@ -26,27 +26,28 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: buildAppBar(),
-      body: PageView(
-        controller: _pageController,
-        onPageChanged: (index) {
-          setState(() => currentIndex = index);
-        },
-        children: [
-          BodyHome(),
-          Container(
-            color: Colors.red,
-          ),
-          Container(
-            color: Colors.green,
-          ),
-          Container(
-            color: Colors.blue,
-          ),
-        ],
+    return SafeArea(
+      child: Scaffold(
+        body: PageView(
+          controller: _pageController,
+          onPageChanged: (index) {
+            setState(() => currentIndex = index);
+          },
+          children: [
+            BodyHome(),
+            Container(
+              color: Colors.red,
+            ),
+            Container(
+              color: Colors.green,
+            ),
+            Container(
+              color: Colors.blue,
+            ),
+          ],
+        ),
+        bottomNavigationBar: buildBottomNavBar(currentIndex),
       ),
-      bottomNavigationBar: buildBottomNavBar(currentIndex),
     );
   }
 
@@ -55,7 +56,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
       animationDuration: Duration(milliseconds: 250),
       showElevation: true,
       itemCornerRadius: 20,
-      backgroundColor: kPrimaryColor,
+      backgroundColor: Colors.white,
       selectedIndex: currentIndex,
       onItemSelected: (index) {
         setState(() => currentIndex = index);
@@ -65,46 +66,32 @@ class _DashboardScreenState extends State<DashboardScreen> {
         BottomNavyBarItem(
           icon: Icon(Icons.home),
           title: Text('Home'),
-          activeColor: Colors.black,
-          inactiveColor: Colors.black54,
+          activeColor: Colors.black54,
+          inactiveColor: kPrimaryColor,
           textAlign: TextAlign.center,
         ),
         BottomNavyBarItem(
           icon: Icon(Icons.shopping_bag),
           title: Text('Cart'),
-          activeColor: Colors.black,
-          inactiveColor: Colors.black54,
+          activeColor: Colors.black54,
+          inactiveColor: kPrimaryColor,
           textAlign: TextAlign.center,
         ),
         BottomNavyBarItem(
           icon: Icon(Icons.favorite),
           title: Text('Wishlist'),
-          activeColor: Colors.black,
-          inactiveColor: Colors.black54,
+          activeColor: Colors.black54,
+          inactiveColor: kPrimaryColor,
           textAlign: TextAlign.center,
         ),
         BottomNavyBarItem(
           icon: Icon(Icons.person),
           title: Text('Profile'),
-          activeColor: Colors.black,
-          inactiveColor: Colors.black54,
+          activeColor: Colors.black54,
+          inactiveColor: kPrimaryColor,
           textAlign: TextAlign.center,
         ),
       ],
-    );
-  }
-
-  AppBar buildAppBar() {
-    return AppBar(
-      backgroundColor: kPrimaryColor,
-      elevation: 0,
-      title: Text('Oapata Mart'),
-      // actions: [
-      //   IconButton(
-      //     icon: Icon(Icons.search),
-      //     onPressed: () {},
-      //   )
-      // ],
     );
   }
 }

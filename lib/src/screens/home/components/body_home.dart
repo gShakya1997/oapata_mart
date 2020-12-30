@@ -4,29 +4,113 @@ import 'package:oapata_mart/src/config/api.dart';
 import 'package:oapata_mart/src/constants.dart';
 
 class BodyHome extends StatelessWidget {
-  // final List<String> categories = [
-  //   'Clothing',
-  //   'Vechiles & Accessories',
-  //   'Consumer Electronics',
-  //   'Tools & Hardware',
-  //   'Machinery',
-  //   'Luggage, Bags & Cases',
-  // ];
-  // int selectedIndex = 0;
-
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 20.0),
-      child: Column(
-        children: [
-          _search(),
-          SizedBox(height: 10.0),
-          _buildCategories(),
-        ],
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 20.0),
+        child: Column(
+          children: [
+            _search(),
+            _buildCategories(),
+            Divider(
+              color: kPrimaryColor,
+              thickness: 2.0,
+            ),
+            Text(
+              'Deal of the day',
+              style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+            ),
+            Divider(
+              color: kPrimaryColor,
+              thickness: 2.0,
+            ),
+            _productList(),
+          ],
+        ),
       ),
     );
   }
+}
+
+Widget _productList() {
+  return Query(
+    options: QueryOptions(
+      documentNode: gql(getProducts),
+      pollInterval: 1,
+    ),
+    builder: (QueryResult result, {VoidCallback refetch, FetchMore fetchMore}) {
+      return Padding(
+        padding: EdgeInsets.symmetric(horizontal: kDefaultPadding),
+        child: Container(
+          margin: EdgeInsets.symmetric(vertical: 10.0),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.all(Radius.circular(2)),
+            boxShadow: <BoxShadow>[
+              BoxShadow(
+                color: kPrimaryLightColor,
+                blurRadius: 10,
+                spreadRadius: 5,
+              ),
+            ],
+          ),
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+            child: Column(
+              children: [
+                IconButton(
+                  icon: Icon(
+                    Icons.favorite_border_outlined,
+                    color: kPrimaryColor,
+                  ),
+                  onPressed: () {},
+                ),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Image.network(
+                      'https://s.alicdn.com/@sc01/kf/Hd9e96ec5beda48488fb057bcddfeca19G.jpg_250x250xzq80.jpg',
+                      height: 150,
+                    ),
+                    SizedBox(height: 10.0),
+                    Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          'Rs.2350',
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: kPrimaryColor,
+                            fontSize: 18,
+                          ),
+                        ),
+                        SizedBox(width: 10),
+                        Text('1'),
+                        Text('-'),
+                        Text('100'),
+                      ],
+                    ),
+                    SizedBox(height: 10.0),
+                    Text(
+                      'Wireless Mouse',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    },
+  );
 }
 
 Widget _buildCategories() {
@@ -56,10 +140,18 @@ Widget _buildCategories() {
                             alignment: Alignment.center,
                             decoration: BoxDecoration(
                               border: Border.all(
-                                  color: kPrimaryLightColor, width: 5),
+                                  color: kPrimaryLightColor, width: 2),
                               borderRadius: BorderRadius.all(
                                 Radius.circular(10),
                               ),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.white,
+                                  blurRadius: 10,
+                                  spreadRadius: 5,
+                                  offset: Offset(5, 5),
+                                ),
+                              ],
                             ),
                             child: Padding(
                               padding: EdgeInsets.all(8.0),

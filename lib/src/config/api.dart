@@ -12,8 +12,25 @@ ValueNotifier<GraphQLClient> client = ValueNotifier(
 final String getCategories = """
 query{
   getCategories{
+    id,
     name,
     icon
+  }
+}
+""";
+
+final String getProducts = """
+query{
+  getProducts{
+    id
+    name
+    image
+    description
+    quantiyPrice{
+      from
+      to
+      price
+    }
   }
 }
 """;
