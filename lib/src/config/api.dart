@@ -10,27 +10,49 @@ ValueNotifier<GraphQLClient> client = ValueNotifier(
 );
 
 final String getCategories = """
-query{
+query GetCategories{
   getCategories{
-    id,
-    name,
-    icon
+    id
+    name
+    slug
+    backgroundImg
+    icon 
   }
 }
 """;
 
 final String getProducts = """
-query{
-  getProducts{
-    id
-    name
-    image
-    description
-    quantiyPrice{
-      from
-      to
-      price
+query GetProducts(\$categoryIds:[ID]){
+    getProducts(categoryIds:\$categoryIds){
+      id
+      name
+      slug
+      supplier{
+        id
+        name
+      }
+      categories{
+        id
+        name
+      }
+      description
+      image
+      moq
+      unit
+      quantiyPrice{
+        from
+        to
+        price
+      }
+      discountRate
+      customAttribute{
+        key
+        value
+      }
+      variation{
+        key
+        value
+      }
     }
   }
-}
 """;
