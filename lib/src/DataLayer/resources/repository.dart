@@ -1,7 +1,7 @@
 import 'package:graphql_flutter/graphql_flutter.dart';
 import 'package:oapata_mart/src/DataLayer/GraphQL/Connection.dart';
 import 'package:oapata_mart/src/DataLayer/GraphQL/Queries.dart';
-import 'package:oapata_mart/src/models/category.dart';
+import 'package:oapata_mart/src/DataLayer/models/category.dart';
 
 class Repository {
   GraphQLClient _client = clientToQuery();

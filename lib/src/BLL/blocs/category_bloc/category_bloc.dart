@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:oapata_mart/src/DataLayer/models/category.dart';
 import 'package:oapata_mart/src/DataLayer/resources/repository.dart';
-import 'package:oapata_mart/src/models/category.dart';
 part 'category_state.dart';
 part 'category_event.dart';
 
