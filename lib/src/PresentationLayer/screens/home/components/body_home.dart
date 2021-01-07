@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:oapata_mart/src/config/api.dart';
+import 'package:oapata_mart/src/DataLayer/api/api.dart';
 import 'package:oapata_mart/src/constants.dart';
 
 class BodyHome extends StatelessWidget {

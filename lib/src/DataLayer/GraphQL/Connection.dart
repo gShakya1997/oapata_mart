@@ -1,5 +1,6 @@
 import 'package:graphql_flutter/graphql_flutter.dart';
-import '../src/constants.dart';
+
+import '../../constants.dart';
 
 final HttpLink httpLink = HttpLink(uri: url);
 

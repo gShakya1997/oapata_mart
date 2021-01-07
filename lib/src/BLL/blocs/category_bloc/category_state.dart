@@ -8,7 +8,7 @@ class CategoryInitial extends CategoryState {}
 class Loading extends CategoryState {}
 
 class LoadCategory extends CategoryState {
-  List<Category> categories;
+  final List<Category> categories;
 
   LoadCategory({this.categories});
 }

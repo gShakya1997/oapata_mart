@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:oapata_mart/src/screens/home/dashboard_screen.dart';
+import 'package:oapata_mart/src/PresentationLayer/screens/home/dashboard_screen.dart';
 
 class RoutesGenerator {
   static Route<dynamic> generateRoute(RouteSettings settings) {

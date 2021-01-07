@@ -1,6 +1,6 @@
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:oapata_mart/GraphQL/Connection.dart';
-import 'package:oapata_mart/GraphQL/Queries.dart';
+import 'package:oapata_mart/src/DataLayer/GraphQL/Connection.dart';
+import 'package:oapata_mart/src/DataLayer/GraphQL/Queries.dart';
 import 'package:oapata_mart/src/models/category.dart';
 
 class Repository {
@@ -30,6 +30,8 @@ class Repository {
         },
       );
       return categories;
+    } else {
+      return null;
     }
   }
 }

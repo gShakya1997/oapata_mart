@@ -1,9 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:oapata_mart/src/config/api.dart';
-import 'package:oapata_mart/src/config/routeGenerator.dart';
+import 'package:oapata_mart/src/DataLayer/api/api.dart';
 import 'package:oapata_mart/src/constants.dart';
+
+import 'PresentationLayer/config/routeGenerator.dart';
 
 class App extends StatelessWidget {
   @override

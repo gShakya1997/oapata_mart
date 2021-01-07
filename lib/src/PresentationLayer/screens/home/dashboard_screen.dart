@@ -1,7 +1,8 @@
 import 'package:bottom_navy_bar/bottom_navy_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:oapata_mart/src/constants.dart';
-import 'package:oapata_mart/src/screens/home/components/body_home.dart';
+
+import 'components/body_home.dart';
 
 class DashboardScreen extends StatefulWidget {
   @override

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:oapata_mart/src/blocs/category_bloc/category_bloc.dart';
-import 'package:oapata_mart/src/resources/repository.dart';
+import 'package:oapata_mart/src/DataLayer/resources/repository.dart';
+
+import 'src/BLL/blocs/category_bloc/category_bloc.dart';
 
 // import 'src/app.dart';
-import 'src/blocs/category_bloc/category_bloc.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -12,7 +12,7 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  Repository repository = new Repository();
+  final Repository repository = new Repository();
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(

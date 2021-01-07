@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:graphql_flutter/graphql_flutter.dart';
-import '../constants.dart';
+import '../../constants.dart';
 
 ValueNotifier<GraphQLClient> client = ValueNotifier(
   GraphQLClient(
