@@ -49,7 +49,6 @@ class BodyHome extends StatelessWidget {
 Widget _buildProductList() {
   return BlocBuilder<ProductBloc, ProductState>(
     builder: (context, state) {
-      print(state);
       if (state is LoadingProducts) {
         return Center(
           child: CircularProgressIndicator(),
@@ -59,62 +58,62 @@ Widget _buildProductList() {
           padding: EdgeInsets.symmetric(
             horizontal: kDefaultPadding,
           ),
-          height: 300,
-          child: Padding(
-            padding: EdgeInsets.all(8.0),
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: state.products.length,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Container(
-                    alignment: Alignment.center,
-                    margin: EdgeInsets.symmetric(vertical: 10.0),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(2),
-                      ),
-                      border: Border.all(color: kPrimaryColor),
+          height: 264,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: state.products.length,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Container(
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(2),
                     ),
-                    child: Column(
-                      children: [
-                        IconButton(
-                          icon: Icon(
-                            Icons.favorite_border_outlined,
-                            color: kPrimaryColor,
-                          ),
-                          onPressed: () {},
+                    border: Border.all(color: kPrimaryColor),
+                  ),
+                  child: Column(
+                    children: [
+                      IconButton(
+                        icon: Icon(
+                          Icons.favorite_border_outlined,
+                          color: kPrimaryColor,
                         ),
-                        Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Container(
-                            width: 500,
-                            child: Column(
+                        onPressed: () {},
+                      ),
+                      Container(
+                        width: 150,
+                        padding: EdgeInsets.symmetric(horizontal: 10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            Image.network(
+                              state.products[index].image[0],
+                              height: 100,
+                            ),
+                            SizedBox(
+                              height: 10.0,
+                            ),
+                            Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                              mainAxisSize: MainAxisSize.min,
                               children: [
-                                Image.network(
-                                  state.products[index].image[0],
-                                  height: 100,
+                                Text(
+                                  'Rs.${state.products[index].quantiyPrice.price}',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    color: kPrimaryColor,
+                                    fontSize: 18,
+                                  ),
                                 ),
-                                SizedBox(
-                                  height: 10.0,
-                                ),
+                                SizedBox(width: 10),
                                 Row(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
-                                    Text(
-                                      '${state.products[index].quantiyPrice.price}',
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        color: kPrimaryColor,
-                                        fontSize: 18,
-                                      ),
-                                    ),
-                                    SizedBox(width: 10),
                                     Text(
                                       '${state.products[index].quantiyPrice.from}',
                                     ),
@@ -122,27 +121,27 @@ Widget _buildProductList() {
                                     Text(
                                       '${state.products[index].quantiyPrice.to}',
                                     ),
-                                    SizedBox(height: 10.0),
-                                    Text(
-                                      '${state.products[index].name}',
-                                      overflow: TextOverflow.ellipsis,
-                                      style: TextStyle(
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 18,
-                                      ),
-                                    )
                                   ],
                                 ),
+                                SizedBox(height: 10.0),
+                                Text(
+                                  '${state.products[index].name}',
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 18,
+                                  ),
+                                )
                               ],
                             ),
-                          ),
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                );
-              },
-            ),
+                ),
+              );
+            },
           ),
         );
       } else {

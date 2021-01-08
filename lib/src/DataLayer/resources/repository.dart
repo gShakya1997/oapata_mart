@@ -53,19 +53,19 @@ class Repository {
       data.forEach(
         (element) {
           List<dynamic> images = element["image"];
+
+          //Suppliers
           var suppliers = Supplier(
             id: element["supplier"]["id"],
             name: element["supplier"]["name"],
           );
+
+          //Quantity Prices
           var quantiyPrices = QuantiyPrice(
             from: element["quantiyPrice"][0]["from"],
             to: element["quantiyPrice"][0]["to"],
             price: element["quantiyPrice"][0]["price"],
           );
-
-          print('Quantity Prices...........${quantiyPrices.from}');
-          print(element["image"]);
-          print(suppliers.id);
 
           products.add(
             Product(
