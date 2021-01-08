@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:json_annotation/json_annotation.dart';
 
 part 'quantiyPrice.g.dart';
@@ -8,7 +6,7 @@ part 'quantiyPrice.g.dart';
 class QuantiyPrice {
   int from;
   int to;
-  Float price;
+  dynamic price;
 
   QuantiyPrice({
     this.from,
