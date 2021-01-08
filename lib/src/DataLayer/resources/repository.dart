@@ -3,6 +3,8 @@ import 'package:oapata_mart/src/DataLayer/GraphQL/Connection.dart';
 import 'package:oapata_mart/src/DataLayer/GraphQL/Queries.dart';
 import 'package:oapata_mart/src/DataLayer/models/category.dart';
 import 'package:oapata_mart/src/DataLayer/models/product.dart';
+import 'package:oapata_mart/src/DataLayer/models/quantiyPrice.dart';
+import 'package:oapata_mart/src/DataLayer/models/supplier.dart';
 
 class Repository {
   GraphQLClient _client = clientToQuery();
@@ -50,18 +52,32 @@ class Repository {
       List<Product> products = [];
       data.forEach(
         (element) {
+          List<dynamic> images = element["image"];
+          var suppliers = Supplier(
+            id: element["supplier"]["id"],
+            name: element["supplier"]["name"],
+          );
+          var quantiyPrices = QuantiyPrice(
+            from: element["quantiyPrice"][0]["from"],
+            to: element["quantiyPrice"][0]["to"],
+            price: element["quantiyPrice"][0]["price"],
+          );
+
+          print('Quantity Prices...........${quantiyPrices.from}');
+          print(element["image"]);
+          print(suppliers.id);
+
           products.add(
             Product(
               id: element["id"],
               name: element["name"],
               slug: element["slug"],
-              supplier: element["supplier"],
-              categoryList: element["categoryList"],
+              supplier: suppliers,
               description: element["description"],
-              image: element["image"],
+              image: images,
               moq: element["moq"],
               unit: element["unit"],
-              quantiyValue: element["quantiyValue"],
+              quantiyPrice: quantiyPrices,
               discountRate: element["discountRate"],
             ),
           );

@@ -20,10 +20,6 @@ query GetProducts(\$categoryIds:[ID]){
         id
         name
       }
-      categories{
-        id
-        name
-      }
       description
       image
       moq

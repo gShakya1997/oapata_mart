@@ -1,18 +1,19 @@
-import 'package:oapata_mart/src/DataLayer/models/category.dart';
-import 'package:oapata_mart/src/DataLayer/models/quantiyValue.dart';
+import 'package:json_annotation/json_annotation.dart';
+import 'package:oapata_mart/src/DataLayer/models/quantiyPrice.dart';
 import 'package:oapata_mart/src/DataLayer/models/supplier.dart';
+part 'product.g.dart';
 
+@JsonSerializable()
 class Product {
   String id;
   String name;
   String slug;
   Supplier supplier;
-  List<Category> categoryList;
   String description;
-  List<String> image;
+  List<dynamic> image;
   int moq;
   String unit;
-  QuantiyValue quantiyValue;
+  QuantiyPrice quantiyPrice;
   int discountRate;
 
   Product({
@@ -20,12 +21,16 @@ class Product {
     this.name,
     this.slug,
     this.supplier,
-    this.categoryList,
     this.description,
     this.image,
     this.moq,
     this.unit,
-    this.quantiyValue,
+    this.quantiyPrice,
     this.discountRate,
   });
+
+  factory Product.fromJson(Map<String, dynamic> json) =>
+      _$ProductFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ProductToJson(this);
 }

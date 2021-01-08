@@ -11,16 +11,14 @@ part 'product_state.dart';
 class ProductBloc extends Bloc<ProductEvent, ProductState> {
   Repository repository;
 
-  ProductBloc({this.repository}) : super(ProductInitial());
+  ProductBloc({@required this.repository}) : super(ProductInitial());
 
   ProductState get intialState => ProductInitial();
 
   @override
   Stream<ProductState> mapEventToState(ProductEvent event) async* {
-    if (state is CategoryLoaded) {
-      yield LoadingProducts();
-      var products = await repository.fetchAllProducts();
-      yield LoadProduct(products: products);
-    }
+    yield LoadingProducts();  
+    var products = await repository.fetchAllProducts();
+    yield LoadProduct(products: products);
   }
 }

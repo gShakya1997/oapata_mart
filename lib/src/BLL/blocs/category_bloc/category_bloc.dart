@@ -9,7 +9,7 @@ part 'category_event.dart';
 class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
   Repository repository;
   
-  CategoryBloc({this.repository}) : super(CategoryInitial());
+  CategoryBloc({@required this.repository}) : super(CategoryInitial());
 
   CategoryState get initialState => CategoryInitial();
 

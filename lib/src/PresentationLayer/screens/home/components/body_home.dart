@@ -49,6 +49,7 @@ class BodyHome extends StatelessWidget {
 Widget _buildProductList() {
   return BlocBuilder<ProductBloc, ProductState>(
     builder: (context, state) {
+      print(state);
       if (state is LoadingProducts) {
         return Center(
           child: CircularProgressIndicator(),
@@ -106,7 +107,7 @@ Widget _buildProductList() {
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
                                     Text(
-                                      '${state.products[index].quantiyValue.price}',
+                                      '${state.products[index].quantiyPrice.price}',
                                       style: TextStyle(
                                         fontWeight: FontWeight.bold,
                                         color: kPrimaryColor,
@@ -115,11 +116,11 @@ Widget _buildProductList() {
                                     ),
                                     SizedBox(width: 10),
                                     Text(
-                                      '${state.products[index].quantiyValue.from}',
+                                      '${state.products[index].quantiyPrice.from}',
                                     ),
                                     Text(' - '),
                                     Text(
-                                      '${state.products[index].quantiyValue.to}',
+                                      '${state.products[index].quantiyPrice.to}',
                                     ),
                                     SizedBox(height: 10.0),
                                     Text(
@@ -215,7 +216,9 @@ Widget _buildCategories() {
           ),
         );
       } else {
-        return Container();
+        return Container(
+          child: Text('Null'),
+        );
       }
     },
   );

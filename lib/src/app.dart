@@ -23,12 +23,14 @@ class App extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider<CategoryBloc>(
-          create: (context) =>
-              CategoryBloc(repository: repository)..add(AppStarted()),
+          create: (context) => CategoryBloc(
+            repository: repository,
+          )..add(AppStarted()),
         ),
         BlocProvider<ProductBloc>(
-          create: (context) =>
-              ProductBloc(repository: repository)..add(CategoryLoaded()),
+          create: (context) => ProductBloc(
+            repository: repository,
+          )..add(CategoryLoaded()),
         ),
       ],
       child: MaterialApp(
