@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:oapata_mart/src/PresentationLayer/screens/home/dashboard_screen.dart';
 
 class RoutesGenerator {
-  static Route<dynamic> generateRoute(RouteSettings settings) {
+  Route generateRoute(RouteSettings settings) {
     // final args = settings.arguments;
     switch (settings.name) {
       case '/':
@@ -13,7 +13,7 @@ class RoutesGenerator {
     }
   }
 
-  static Route<dynamic> _errorRoute() {
+  Route _errorRoute() {
     return MaterialPageRoute(
       builder: (_) {
         return Scaffold(

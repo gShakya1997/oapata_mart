@@ -1,4 +1,4 @@
-final String getCategoriesQuery = """
+final String getAllCategoriesQuery = """
 query GetCategories{
   getCategories{
     id
@@ -8,4 +8,32 @@ query GetCategories{
     icon 
   }
 }
+""";
+
+final String getAllProductsQuery = """
+query GetProducts(\$categoryIds:[ID]){
+    getProducts(categoryIds:\$categoryIds){
+      id
+      name
+      slug
+      supplier{
+        id
+        name
+      }
+      categories{
+        id
+        name
+      }
+      description
+      image
+      moq
+      unit
+      quantiyPrice{
+        from
+        to
+        price
+      }
+      discountRate
+    }
+  }
 """;

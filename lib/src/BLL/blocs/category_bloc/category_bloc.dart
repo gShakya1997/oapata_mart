@@ -17,7 +17,7 @@ class CategoryBloc extends Bloc<CategoryEvent, CategoryState> {
   Stream<CategoryState> mapEventToState(CategoryEvent event) async* {
     if (event is AppStarted) {
       yield Loading();
-      var categories = await repository.fetchAllCategory();
+      var categories = await repository.fetchAllCategories();
       yield LoadCategory(categories: categories);
     }
   }

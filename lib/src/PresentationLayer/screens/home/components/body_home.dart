@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:graphql_flutter/graphql_flutter.dart';
-import 'package:oapata_mart/src/DataLayer/api/api.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:oapata_mart/src/BLL/blocs/category_bloc/category_bloc.dart';
+import 'package:oapata_mart/src/BLL/blocs/product_bloc/product_bloc.dart';
 import 'package:oapata_mart/src/constants.dart';
 
 class BodyHome extends StatelessWidget {
@@ -46,171 +47,176 @@ class BodyHome extends StatelessWidget {
 }
 
 Widget _buildProductList() {
-  return Query(
-    options: QueryOptions(
-      documentNode: gql(getProducts),
-      pollInterval: 1,
-    ),
-    builder: (QueryResult result, {VoidCallback refetch, FetchMore fetchMore}) {
-      return Container(
-        padding: EdgeInsets.symmetric(horizontal: kDefaultPadding),
-        height: 300,
-        child: result.hasException
-            ? Text(result.exception.toString())
-            : result.loading
-                ? LinearProgressIndicator(backgroundColor: kPrimaryColor)
-                : Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: result.data['getProducts'].length,
-                      itemBuilder: (context, index) {
-                        final product = result.data['getProducts'][index];
-                        final productPricing = product['quantiyPrice'];
-                        return Padding(
-                          padding: const EdgeInsets.all(8.0),
+  return BlocBuilder<ProductBloc, ProductState>(
+    builder: (context, state) {
+      if (state is LoadingProducts) {
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      } else if (state is LoadProduct) {
+        return Container(
+          padding: EdgeInsets.symmetric(
+            horizontal: kDefaultPadding,
+          ),
+          height: 300,
+          child: Padding(
+            padding: EdgeInsets.all(8.0),
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: state.products.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: Container(
+                    alignment: Alignment.center,
+                    margin: EdgeInsets.symmetric(vertical: 10.0),
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(2),
+                      ),
+                      border: Border.all(color: kPrimaryColor),
+                    ),
+                    child: Column(
+                      children: [
+                        IconButton(
+                          icon: Icon(
+                            Icons.favorite_border_outlined,
+                            color: kPrimaryColor,
+                          ),
+                          onPressed: () {},
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(8.0),
                           child: Container(
-                            alignment: Alignment.center,
-                            margin: EdgeInsets.symmetric(vertical: 10.0),
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(2)),
-                              border: Border.all(color: kPrimaryColor),
-                            ),
+                            width: 500,
                             child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
-                                IconButton(
-                                  icon: Icon(
-                                    Icons.favorite_border_outlined,
-                                    color: kPrimaryColor,
-                                  ),
-                                  onPressed: () {},
+                                Image.network(
+                                  state.products[index].image[0],
+                                  height: 100,
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Container(
-                                    width: 150,
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceEvenly,
-                                      children: [
-                                        Image.network(
-                                          '${product['image'][0]}',
-                                          height: 100,
-                                        ),
-                                        SizedBox(height: 10.0),
-                                        Row(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.center,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            Text(
-                                              'Rs.${productPricing[0]['price']}',
-                                              style: TextStyle(
-                                                fontWeight: FontWeight.bold,
-                                                color: kPrimaryColor,
-                                                fontSize: 18,
-                                              ),
-                                            ),
-                                            SizedBox(width: 10),
-                                            Text(
-                                                '${productPricing[0]['from']}'),
-                                            Text('-'),
-                                            Text('${productPricing[0]['to']}'),
-                                          ],
-                                        ),
-                                        SizedBox(height: 10.0),
-                                        Text(
-                                          '${product['name']}',
-                                          overflow: TextOverflow.ellipsis,
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.bold,
-                                            fontSize: 18,
-                                          ),
-                                        ),
-                                      ],
+                                SizedBox(
+                                  height: 10.0,
+                                ),
+                                Row(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    Text(
+                                      '${state.products[index].quantiyValue.price}',
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        color: kPrimaryColor,
+                                        fontSize: 18,
+                                      ),
                                     ),
-                                  ),
+                                    SizedBox(width: 10),
+                                    Text(
+                                      '${state.products[index].quantiyValue.from}',
+                                    ),
+                                    Text(' - '),
+                                    Text(
+                                      '${state.products[index].quantiyValue.to}',
+                                    ),
+                                    SizedBox(height: 10.0),
+                                    Text(
+                                      '${state.products[index].name}',
+                                      overflow: TextOverflow.ellipsis,
+                                      style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 18,
+                                      ),
+                                    )
+                                  ],
                                 ),
                               ],
                             ),
                           ),
-                        );
-                      },
+                        ),
+                      ],
                     ),
                   ),
-      );
+                );
+              },
+            ),
+          ),
+        );
+      } else {
+        return Container(
+          child: Text('Null'),
+        );
+      }
     },
   );
 }
 
 Widget _buildCategories() {
-  return Query(
-    options: QueryOptions(
-      documentNode: gql(getCategories),
-      pollInterval: 1,
-    ),
-    builder: (QueryResult result, {VoidCallback refetch, FetchMore fetchMore}) {
-      return Container(
-        height: 80.0,
-        child: result.hasException
-            ? Text(result.exception.toString())
-            : result.loading
-                ? LinearProgressIndicator(backgroundColor: kPrimaryLightColor)
-                : Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: result.data['getCategories'].length,
-                      itemBuilder: (context, index) {
-                        final category = result.data['getCategories'][index];
-                        return Padding(
-                          padding:
-                              EdgeInsets.symmetric(horizontal: kDefaultPadding),
-                          child: Container(
-                            alignment: Alignment.center,
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                  color: kPrimaryLightColor, width: 2),
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(10),
-                              ),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.white,
-                                  blurRadius: 10,
-                                  spreadRadius: 5,
-                                  offset: Offset(5, 5),
-                                ),
-                              ],
-                            ),
-                            child: Padding(
-                              padding: EdgeInsets.all(8.0),
-                              child: Row(
-                                children: [
-                                  Image.network('${category['icon']}'),
-                                  SizedBox(width: 5.0),
-                                  Text(
-                                    category['name'],
-                                    style: TextStyle(
-                                      fontWeight: FontWeight.bold,
-                                      color: kTextColor,
-                                    ),
-                                  ),
-                                ],
-                              ),
+  return BlocBuilder<CategoryBloc, CategoryState>(
+    builder: (context, state) {
+      if (state is Loading) {
+        return Center(
+          child: CircularProgressIndicator(),
+        );
+      } else if (state is LoadCategory) {
+        return Container(
+          height: 80.0,
+          child: Padding(
+            padding: EdgeInsets.all(8.0),
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: state.categories.length,
+              itemBuilder: (context, index) {
+                return Padding(
+                  padding: EdgeInsets.symmetric(horizontal: kDefaultPadding),
+                  child: Container(
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: kPrimaryColor,
+                        width: 2,
+                      ),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10),
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.white,
+                          blurRadius: 10,
+                          spreadRadius: 5,
+                          offset: Offset(5, 5),
+                        )
+                      ],
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.all(8.0),
+                      child: Row(
+                        children: [
+                          Image.network(
+                            state.categories[index].icon,
+                          ),
+                          SizedBox(width: 5.0),
+                          Text(
+                            '${state.categories[index].name}',
+                            style: TextStyle(
+                              fontWeight: FontWeight.bold,
+                              color: kTextColor,
                             ),
                           ),
-                        );
-                      },
+                        ],
+                      ),
                     ),
                   ),
-      );
+                );
+              },
+            ),
+          ),
+        );
+      } else {
+        return Container();
+      }
     },
   );
 }
