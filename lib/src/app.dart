@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:oapata_mart/src/BLL/blocs/product_bloc/product_bloc.dart';
+import 'package:oapata_mart/src/DataLayer/resources/category_repository.dart';
 import 'package:oapata_mart/src/DataLayer/resources/repository.dart';
 import 'package:oapata_mart/src/constants.dart';
 
@@ -10,12 +11,10 @@ import 'PresentationLayer/config/routeGenerator.dart';
 
 class App extends StatelessWidget {
   final RoutesGenerator routesGenerator;
-  final Repository repository;
 
   const App({
     Key key,
     this.routesGenerator,
-    this.repository,
   }) : super(key: key);
 
   @override
@@ -24,13 +23,15 @@ class App extends StatelessWidget {
       providers: [
         BlocProvider<CategoryBloc>(
           create: (context) => CategoryBloc(
-            repository: repository,
-          )..add(AppStarted()),
+            categoryRepository: CategoryRepository(),
+          )..add(
+              AppStarted(),
+            ),
         ),
         BlocProvider<ProductBloc>(
           create: (context) => ProductBloc(
-            repository: repository,
-          )..add(CategoryLoaded()),
+            repository: Repository(),
+          ),
         ),
       ],
       child: MaterialApp(

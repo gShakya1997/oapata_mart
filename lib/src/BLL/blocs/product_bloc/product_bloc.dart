@@ -17,7 +17,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
 
   @override
   Stream<ProductState> mapEventToState(ProductEvent event) async* {
-    yield LoadingProducts();  
+    yield LoadingProducts();
     var products = await repository.fetchAllProducts();
     yield LoadProduct(products: products);
   }
