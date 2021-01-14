@@ -21,8 +21,24 @@ class ProductLoaded extends ProductState {
   @override
   bool operator ==(Object o) {
     if (identical(this, o)) return true;
-  
+
     return o is ProductLoaded && o.products == products;
+  }
+
+  @override
+  int get hashCode => products.hashCode;
+}
+
+class ProductLoadedByCategoryIds extends ProductState {
+  final List<Product> products;
+
+  const ProductLoadedByCategoryIds({this.products});
+
+  @override
+  bool operator ==(Object o) {
+    if (identical(this, o)) return true;
+
+    return o is ProductLoadedByCategoryIds && o.products == products;
   }
 
   @override

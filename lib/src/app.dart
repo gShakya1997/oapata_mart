@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:oapata_mart/src/BLL/blocs/product_bloc/product_bloc.dart';
 import 'package:oapata_mart/src/DataLayer/resources/category_repository.dart';
-import 'package:oapata_mart/src/DataLayer/resources/repository.dart';
+import 'package:oapata_mart/src/DataLayer/resources/product_repository.dart';
 import 'package:oapata_mart/src/constants.dart';
 
 import 'BLL/blocs/category_bloc/category_bloc.dart';
@@ -24,13 +24,11 @@ class App extends StatelessWidget {
         BlocProvider<CategoryBloc>(
           create: (context) => CategoryBloc(
             categoryRepository: CategoryRepository(),
-          )..add(
-              AppStarted(),
-            ),
+          )..add(AppStarted()),
         ),
         BlocProvider<ProductBloc>(
           create: (context) => ProductBloc(
-            repository: Repository(),
+            productRepository: ProductRepository(),
           ),
         ),
       ],

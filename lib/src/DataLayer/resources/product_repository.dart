@@ -5,7 +5,7 @@ import 'package:oapata_mart/src/DataLayer/models/product.dart';
 import 'package:oapata_mart/src/DataLayer/models/quantiyPrice.dart';
 import 'package:oapata_mart/src/DataLayer/models/supplier.dart';
 
-class Repository {
+class ProductRepository {
   GraphQLClient _client = clientToQuery();
 
   //Fetch all products
@@ -59,7 +59,7 @@ class Repository {
   }
 
   //Fetch product by id
-  Future<List<Product>> fetchProductsById(String id) async {
+  Future<List<Product>> fetchProductsByCategoryId(String id) async {
     QueryResult result = await _client.query(
       QueryOptions(
         documentNode: gql(getAllProductsQuery),
