@@ -22,14 +22,15 @@ class ProductCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(
-        horizontal: kDefaultPadding,
+        horizontal: 8,
+        vertical: 10,
       ),
       child: Container(
         alignment: Alignment.center,
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.all(
-            Radius.circular(2),
+            Radius.circular(10),
           ),
           border: Border.all(color: kPrimaryColor),
         ),

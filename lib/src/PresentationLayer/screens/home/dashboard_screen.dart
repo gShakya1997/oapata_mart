@@ -29,6 +29,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        appBar: buildAppBar(),
         body: PageView(
           controller: _pageController,
           onPageChanged: (index) {
@@ -49,6 +50,30 @@ class _DashboardScreenState extends State<DashboardScreen> {
         ),
         bottomNavigationBar: buildBottomNavBar(currentIndex),
       ),
+    );
+  }
+
+  AppBar buildAppBar() {
+    return AppBar(
+      centerTitle: true,
+      elevation: 0.0,
+      backgroundColor: kPrimaryColor,
+      leading: Padding(
+        padding: const EdgeInsets.only(left: 15.0),
+        child: IconButton(
+          icon: Icon(Icons.shopping_cart_sharp),
+          onPressed: () {},
+        ),
+      ),
+      actions: [
+        Padding(
+          padding: const EdgeInsets.only(right: 15.0),
+          child: IconButton(
+            icon: Icon(Icons.person),
+            onPressed: () {},
+          ),
+        ),
+      ],
     );
   }
 

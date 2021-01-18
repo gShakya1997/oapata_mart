@@ -10,77 +10,27 @@ class BodyHome extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 20.0),
-        child: Column(
-          children: [
-            _search(),
-            _buildCategories(),
-            DividerCategory(title: 'Deal of the day'),
-            _buildAllProductList(context),
-            DividerCategory(title: 'Clothing'),
-            _buildAllProductList(context),
-          ],
-        ),
+      child: Column(
+        children: [
+          Container(
+            height: 80,
+            width: double.infinity,
+            decoration: BoxDecoration(
+              color: kPrimaryColor,
+              borderRadius: BorderRadius.only(
+                bottomLeft: Radius.circular(30),
+                bottomRight: Radius.circular(30),
+              ),
+            ),
+            child: _search(),
+          ),
+          _buildCategories(),
+          DividerCategory(title: 'Deal of the day'),
+          _buildAllProductList(context),
+        ],
       ),
     );
   }
-}
-
-Widget _buildProductListByCategory(BuildContext context) {
-  return BlocBuilder<ProductBloc, ProductState>(
-    builder: (context, state) {
-      if (state is ProductLoading) {
-        return Center(
-          child: CircularProgressIndicator(),
-        );
-      } else if (state is ProductLoaded) {
-        return Container(
-          padding: EdgeInsets.symmetric(
-            horizontal: kDefaultPadding,
-          ),
-          height: 264,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: state.products.length,
-            itemBuilder: (context, index) {
-              return ProductCard(
-                productName: state.products[index].name,
-                productFrom: state.products[index].quantiyPrice.from,
-                productImageLink: state.products[index].image[0],
-                productPrice: state.products[index].quantiyPrice.price,
-                productTo: state.products[index].quantiyPrice.to,
-              );
-            },
-          ),
-        );
-      } else if (state is ProductLoadedByCategoryIds) {
-        return Container(
-          padding: EdgeInsets.symmetric(
-            horizontal: kDefaultPadding,
-          ),
-          height: 264,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: state.products.length,
-            itemBuilder: (context, index) {
-              return ProductCard(
-                productName: state.products[index].name,
-                productFrom: state.products[index].quantiyPrice.from,
-                productImageLink: state.products[index].image[0],
-                productPrice: state.products[index].quantiyPrice.price,
-                productTo: state.products[index].quantiyPrice.to,
-              );
-            },
-          ),
-        );
-      } else {
-        return Container(
-          child: Text('NULL'),
-        );
-      }
-    },
-  );
 }
 
 Widget _buildAllProductList(BuildContext context) {
@@ -94,46 +44,43 @@ Widget _buildAllProductList(BuildContext context) {
           child: CircularProgressIndicator(),
         );
       } else if (state is ProductLoaded) {
-        BlocProvider.of<ProductBloc>(context).add(
-          GetProductByCategoryId(categoryIds: "5fbfc8cbb86c2cbf83530981"),
-        );
-        return Container(
-          padding: EdgeInsets.symmetric(
-            horizontal: kDefaultPadding,
-          ),
-          height: 264,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: state.products.length,
-            itemBuilder: (context, index) {
-              return ProductCard(
-                productName: state.products[index].name,
-                productFrom: state.products[index].quantiyPrice.from,
-                productImageLink: state.products[index].image[0],
-                productPrice: state.products[index].quantiyPrice.price,
-                productTo: state.products[index].quantiyPrice.to,
-              );
-            },
-          ),
-        );
-      } else if (state is ProductLoadedByCategoryIds) {
-        return Container(
-          padding: EdgeInsets.symmetric(
-            horizontal: kDefaultPadding,
-          ),
-          height: 264,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            itemCount: state.products.length,
-            itemBuilder: (context, index) {
-              return ProductCard(
-                productName: state.products[index].name,
-                productFrom: state.products[index].quantiyPrice.from,
-                productImageLink: state.products[index].image[0],
-                productPrice: state.products[index].quantiyPrice.price,
-                productTo: state.products[index].quantiyPrice.to,
-              );
-            },
+        // BlocProvider.of<ProductBloc>(context).add(
+        //   GetProductByCategoryId(categoryIds: "5fbfc8cbb86c2cbf83530981"),
+        // );
+        // return Container(
+        //   padding: EdgeInsets.symmetric(
+        //     horizontal: kDefaultPadding,
+        //   ),
+        //   height: 264,
+        //   child: ListView.builder(
+        //     scrollDirection: Axis.horizontal,
+        //     itemCount: state.products.length,
+        //     itemBuilder: (context, index) {
+        //       return ProductCard(
+        //         productName: state.products[index].name,
+        //         productFrom: state.products[index].quantiyPrice.from,
+        //         productImageLink: state.products[index].image[0],
+        //         productPrice: state.products[index].quantiyPrice.price,
+        //         productTo: state.products[index].quantiyPrice.to,
+        //       );
+        //     },
+        //   ),
+        // );
+        return GridView.count(
+          physics: ScrollPhysics(),
+          shrinkWrap: true,
+          childAspectRatio: (MediaQuery.of(context).size.width / 2) /
+              (MediaQuery.of(context).size.height / 3),
+          crossAxisCount: 2,
+          children: List.generate(
+            state.products.length,
+            (index) => ProductCard(
+              productName: state.products[index].name,
+              productFrom: state.products[index].quantiyPrice.from,
+              productImageLink: state.products[index].image[0],
+              productPrice: state.products[index].quantiyPrice.price,
+              productTo: state.products[index].quantiyPrice.to,
+            ),
           ),
         );
       } else {
@@ -153,56 +100,39 @@ Widget _buildCategories() {
           child: CircularProgressIndicator(),
         );
       } else if (state is CategoryLoaded) {
-        return Container(
-          height: 80.0,
-          child: Padding(
-            padding: EdgeInsets.all(8.0),
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              itemCount: state.categories.length,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: EdgeInsets.symmetric(horizontal: kDefaultPadding),
-                  child: Container(
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: kPrimaryColor,
-                        width: 2,
+        return GridView.count(
+          shrinkWrap: true,
+          childAspectRatio: (MediaQuery.of(context).size.width / 2) /
+              (MediaQuery.of(context).size.height / 3),
+          crossAxisCount: 4,
+          children: List.generate(
+            7,
+            (index) => Padding(
+              padding: const EdgeInsets.all(12.0),
+              child: Center(
+                child: Container(
+                  height: 80,
+                  width: 80,
+                  child: Column(
+                    children: [
+                      ClipOval(
+                        child: Image.network(
+                          state.categories[index].icon,
+                        ),
                       ),
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(10),
+                      Divider(),
+                      Text(
+                        "${state.categories[index].name}",
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                        ),
                       ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.white,
-                          blurRadius: 10,
-                          spreadRadius: 5,
-                          offset: Offset(5, 5),
-                        )
-                      ],
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.all(8.0),
-                      child: Row(
-                        children: [
-                          Image.network(
-                            state.categories[index].icon,
-                          ),
-                          SizedBox(width: 5.0),
-                          Text(
-                            '${state.categories[index].name}',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: kTextColor,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
+                    ],
                   ),
-                );
-              },
+                ),
+              ),
             ),
           ),
         );
