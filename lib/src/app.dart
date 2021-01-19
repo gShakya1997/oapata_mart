@@ -40,7 +40,7 @@ class App extends StatelessWidget {
           scaffoldBackgroundColor: Colors.white,
           textTheme: Theme.of(context).textTheme.apply(bodyColor: kTextColor),
         ),
-        initialRoute: '/',
+        initialRoute: '/productDetailScreen',
         onGenerateRoute: routesGenerator.generateRoute,
       ),
     );

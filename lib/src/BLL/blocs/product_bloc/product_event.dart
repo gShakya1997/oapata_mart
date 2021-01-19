@@ -10,3 +10,9 @@ class GetProductByCategoryId extends ProductEvent{
 
   GetProductByCategoryId({this.categoryIds});
 }
+
+class GetProductById extends ProductEvent{
+  final String productId;
+
+  GetProductById({this.productId});
+}

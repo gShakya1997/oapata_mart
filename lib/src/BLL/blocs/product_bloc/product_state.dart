@@ -29,6 +29,23 @@ class ProductLoaded extends ProductState {
   int get hashCode => products.hashCode;
 }
 
+class ProductLoadedById extends ProductState {
+  final Product product;
+
+  ProductLoadedById({@required this.product});
+
+  @override
+  bool operator ==(Object o) {
+    if (identical(this, o)) return true;
+  
+    return o is ProductLoadedById &&
+      o.product == product;
+  }
+
+  @override
+  int get hashCode => product.hashCode;
+}
+
 class ProductLoadedByCategoryIds extends ProductState {
   final List<Product> products;
 

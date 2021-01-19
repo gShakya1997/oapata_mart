@@ -44,44 +44,13 @@ Widget _buildAllProductList(BuildContext context) {
           child: CircularProgressIndicator(),
         );
       } else if (state is ProductLoaded) {
-        // BlocProvider.of<ProductBloc>(context).add(
-        //   GetProductByCategoryId(categoryIds: "5fbfc8cbb86c2cbf83530981"),
-        // );
-        // return Container(
-        //   padding: EdgeInsets.symmetric(
-        //     horizontal: kDefaultPadding,
-        //   ),
-        //   height: 264,
-        //   child: ListView.builder(
-        //     scrollDirection: Axis.horizontal,
-        //     itemCount: state.products.length,
-        //     itemBuilder: (context, index) {
-        //       return ProductCard(
-        //         productName: state.products[index].name,
-        //         productFrom: state.products[index].quantiyPrice.from,
-        //         productImageLink: state.products[index].image[0],
-        //         productPrice: state.products[index].quantiyPrice.price,
-        //         productTo: state.products[index].quantiyPrice.to,
-        //       );
-        //     },
-        //   ),
-        // );
         return GridView.count(
           physics: ScrollPhysics(),
           shrinkWrap: true,
           childAspectRatio: (MediaQuery.of(context).size.width / 2) /
               (MediaQuery.of(context).size.height / 3),
           crossAxisCount: 2,
-          children: List.generate(
-            state.products.length,
-            (index) => ProductCard(
-              productName: state.products[index].name,
-              productFrom: state.products[index].quantiyPrice.from,
-              productImageLink: state.products[index].image[0],
-              productPrice: state.products[index].quantiyPrice.price,
-              productTo: state.products[index].quantiyPrice.to,
-            ),
-          ),
+          children: _getProductTitles(state.products),
         );
       } else {
         return Container(
@@ -90,6 +59,30 @@ Widget _buildAllProductList(BuildContext context) {
       }
     },
   );
+}
+
+List<Widget> _getProductTitles(List<dynamic> productStates) {
+  final List<Widget> tiles = <Widget>[];
+  for (int i = 0; i < productStates.length; i++) {
+    tiles.add(
+      GridTile(
+        child: InkResponse(
+          enableFeedback: true,
+          child: ProductCard(
+            productName: productStates[i].name,
+            productFrom: productStates[i].quantiyPrice.from,
+            productImageLink: productStates[i].image[0],
+            productPrice: productStates[i].quantiyPrice.price,
+            productTo: productStates[i].quantiyPrice.to,
+          ),
+          onTap: () => debugPrint(
+            "You tapped on item ${productStates[i].id}",
+          ),
+        ),
+      ),
+    );
+  }
+  return tiles;
 }
 
 Widget _buildCategories() {

@@ -26,6 +26,11 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
       var productsByCategoryId =
           await productRepository.fetchProductsByCategoryId(event.categoryIds);
       yield ProductLoadedByCategoryIds(products: productsByCategoryId);
+    } else if (event is GetProductById) {
+      yield ProductLoading();
+      var productById =
+          await productRepository.fetchProductById(event.productId);
+      yield ProductLoadedById(product: productById);
     }
   }
 }

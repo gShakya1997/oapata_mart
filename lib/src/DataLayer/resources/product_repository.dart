@@ -58,7 +58,54 @@ class ProductRepository {
     }
   }
 
-  //Fetch product by id
+  Future<Product> fetchProductById(String productId) async {
+    QueryResult result = await _client.query(
+      QueryOptions(
+        documentNode: gql(getProductByIdQuery),
+        variables: {
+          'id': productId,
+        },
+      ),
+    );
+
+    if (!result.hasException) {
+      final data = result.data["getProduct"];
+      Product product;
+
+      List<dynamic> images = data["image"];
+
+      //Suppliers
+      var suppliers = Supplier(
+        id: data["supplier"]["id"],
+        name: data["supplier"]["name"],
+      );
+
+      //Quantity Prices
+      var quantiyPrices = QuantiyPrice(
+        from: data["quantiyPrice"][0]["from"],
+        to: data["quantiyPrice"][0]["to"],
+        price: data["quantiyPrice"][0]["price"],
+      );
+
+      product = Product(
+        id: data["id"],
+        name: data["name"],
+        slug: data["slug"],
+        supplier: suppliers,
+        description: data["description"],
+        image: images,
+        moq: data["moq"],
+        unit: data["unit"],
+        quantiyPrice: quantiyPrices,
+        discountRate: data["discountRate"],
+      );
+      return product;
+    } else {
+      return null;
+    }
+  }
+
+  //Fetch products by category id
   Future<List<Product>> fetchProductsByCategoryId(String id) async {
     QueryResult result = await _client.query(
       QueryOptions(
@@ -74,6 +121,7 @@ class ProductRepository {
       List<Product> products = [];
       data.forEach(
         (element) {
+          print(element);
           List<dynamic> images = element["image"];
 
           //Suppliers
